@@ -2,8 +2,8 @@
 
 **Versão:** 1.0  
 **Desenvolvido por:** Felipe <br>
-**Meu Linkedin:** [Linkedin](www.linkedin.com/in/felipe-da-cruz-pereira-769ab529a)
-**Caso o link não funcione, copie e cole o link abaixo na aba de pesquia do navegador:**
+**Meu Linkedin:** [Linkedin](www.linkedin.com/in/felipe-da-cruz-pereira-769ab529a) <br>
+**Caso o link não funcione, copie e cole o link abaixo na barra de pesquia do navegador:**
 ```plaintext
 www.linkedin.com/in/felipe-da-cruz-pereira-769ab529a
 ````
