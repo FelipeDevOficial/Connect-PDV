@@ -1,4 +1,4 @@
-# Conecte PDV  
+# Connecte PDV  
 
 **Versão:** 1.0  
 **Desenvolvido por:** Felipe <br>
@@ -11,7 +11,7 @@ www.linkedin.com/in/felipe-da-cruz-pereira-769ab529a
 ---
 
 ## 📋 Sobre o Sistema  
-O **Conecte PDV** é uma solução moderna para gestão de vendas e controle de estoque. Ideal para pequenos e médios negócios, o sistema proporciona agilidade, eficiência e uma experiência intuitiva para o usuário.  
+O **Connecte PDV** é uma solução moderna para gestão de vendas e controle de estoque. Ideal para pequenos e médios negócios, o sistema proporciona agilidade, eficiência e uma experiência intuitiva para o usuário.  
 
 ---
 
