@@ -261,18 +261,34 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                 item.setProdutos(p);
                 item.setQtd(Integer.valueOf(meus_produtos.getValueAt(i, 2).toString()));
                 item.setSubtotal(Double.valueOf(meus_produtos.getValueAt(i, 4).toString()));                
-                qtd_estoque = pdao.retornaQtdAtualEstoque(p.getId());
-                qtd_comprada = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
-                qtd_atualizada = qtd_estoque - qtd_comprada;
-                pdao.baixaEstoque(p.getId(), qtd_atualizada);
+//                qtd_estoque = pdao.retornaQtdAtualEstoque(p.getId());
+//                qtd_comprada = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
+//                qtd_atualizada = qtd_estoque - qtd_comprada;
+//                pdao.baixaEstoque(p.getId(), qtd_atualizada);
                 ItensVendasDAO dao = new ItensVendasDAO();
                 dao.salvar(item);
-                this.dispose();
-                new FormularioVendas().setVisible(true);
-                        
-                
+                this.dispose();                 
             }
-        } else {
+            new FormularioVendas().setVisible(true);   
+        }else if (TotalPago < totalVenda) {
+    // Caso o valor pago seja menor que o valor da venda
+    JOptionPane.showMessageDialog(null, "Não foi possível concluir a venda, valor pago menor que o valor da venda.");
+
+    // Neste ponto, percorremos a tabela e adicionamos de volta ao estoque os produtos
+    for (int i = 0; i < meus_produtos.getRowCount(); i++) {
+        int idProduto = Integer.valueOf(meus_produtos.getValueAt(i, 0).toString());
+        int qtdProduto = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
+
+        // Adiciona novamente ao estoque
+        new ProdutosDAO().adicionarEstoquePDV(idProduto, qtdProduto);
+
+        
+    }
+    this.dispose();
+    new FormularioVendas().setVisible(true);
+           
+
+         }else {
             JOptionPane.showMessageDialog(null, "Não foi possivel concluir a venda, valor pago menor que o valor da venda.");
         }
 

@@ -239,21 +239,68 @@ public class ProdutosDAO {
         }
     }
     
-    public void baixaEstoque(int id, int qtd_nova) {
-        try {
-            String sql = "update tb_produtos set qtd_estoque=? where id=?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, qtd_nova);
-            stmt.setInt(2, id);
-            stmt.execute();
-            stmt.close();
-            //JOptionPane.showMessageDialog(null, "Baixa no estoque efetuada com sucesso!");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"Erro ao dar baixa ao estoque!" + e);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+    public void adicionarEstoquePDV(int id, int qtdParaAdicionar) {
+    try {
+        String sql = "UPDATE tb_produtos SET qtd_estoque = qtd_estoque + ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, qtdParaAdicionar);
+        stmt.setInt(2, id);
+        stmt.execute();
+        stmt.close();
+        JOptionPane.showMessageDialog(null, "Adicionado com sucesso!");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao adicionar ao estoque! " + e);
     }
+}
+
+    
+    //método ultilizado na tela de PDV
+    public void baixaEstoquePDV(int id, int qtdParaSubtrair) {
+    try {
+        // Subtrair diretamente no comando SQL
+        String sql = "UPDATE tb_produtos SET qtd_estoque = qtd_estoque - ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, qtdParaSubtrair); // O número já será tratado como subtração
+        stmt.setInt(2, id);
+
+        int rowsAffected = stmt.executeUpdate(); // Verifica se o update afetou linhas
+        stmt.close();
+
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Baixa no estoque efetuada com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum registro encontrado para o ID informado.");
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao atualizar o estoque: " + e.getMessage());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro inesperado: " + e.getMessage());
+    }
+}
+    
+    //Método normal para formulário de produto
+    public void baixaEstoque(int id, int qtdParaSubtrair) {
+    try {
+        // Subtrair diretamente no comando SQL
+        String sql = "UPDATE tb_produtos SET qtd_estoque = qtd_estoque - ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, qtdParaSubtrair); // O número já será tratado como subtração
+        stmt.setInt(2, id);
+
+        int rowsAffected = stmt.executeUpdate(); // Verifica se o update afetou linhas
+        stmt.close();
+
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Baixa no estoque efetuada com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum registro encontrado para o ID informado.");
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao atualizar o estoque: " + e.getMessage());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro inesperado: " + e.getMessage());
+    }
+}
     
     public int retornaQtdAtualEstoque (int id) {
         try {
