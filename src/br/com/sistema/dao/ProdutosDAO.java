@@ -239,7 +239,7 @@ public class ProdutosDAO {
         }
     }
     
-    public void adicionarEstoquePDV(int id, int qtdParaAdicionar) {
+ /*   public void adicionarEstoquePDV(int id, int qtdParaAdicionar) {
     try {
         String sql = "UPDATE tb_produtos SET qtd_estoque = qtd_estoque + ? WHERE id = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -251,7 +251,26 @@ public class ProdutosDAO {
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Erro ao adicionar ao estoque! " + e);
     }
+}*/
+public void adicionarEstoquePDV(int id, int qtdParaAdicionar) {
+    try {
+        String sql = "UPDATE tb_produtos SET qtd_estoque = qtd_estoque + ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, qtdParaAdicionar);
+        stmt.setInt(2, id);
+        int rowsAffected = stmt.executeUpdate(); // Executa a atualização
+        stmt.close();
+
+        // Verifica se algum registro foi atualizado
+        if (rowsAffected == 0) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado para o ID informado.");
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao adicionar ao estoque! " + e);
+        e.printStackTrace();
+    }
 }
+
 
     
     //método ultilizado na tela de PDV
@@ -262,12 +281,11 @@ public class ProdutosDAO {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, qtdParaSubtrair); // O número já será tratado como subtração
         stmt.setInt(2, id);
-
         int rowsAffected = stmt.executeUpdate(); // Verifica se o update afetou linhas
         stmt.close();
 
         if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Baixa no estoque efetuada com sucesso!");
+            JOptionPane.showMessageDialog(null, "Produto adicionado no carrinho!");
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum registro encontrado para o ID informado.");
         }

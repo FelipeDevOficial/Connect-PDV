@@ -81,7 +81,8 @@ public class AreaTrabalho extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Logado por:"));
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel1.setText("Nome: ");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel1.setText("Nome:");
 
         lblLogado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblLogado.setText("Nome do Usuário");
