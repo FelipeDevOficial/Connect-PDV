@@ -172,9 +172,7 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                         .addGap(105, 105, 105))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(9, 9, 9))
+                            .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(59, 59, 59))))
             .addGroup(layout.createSequentialGroup()
@@ -212,15 +210,12 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(jLabel8))
         );
 
@@ -266,34 +261,18 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                 item.setProdutos(p);
                 item.setQtd(Integer.valueOf(meus_produtos.getValueAt(i, 2).toString()));
                 item.setSubtotal(Double.valueOf(meus_produtos.getValueAt(i, 4).toString()));                
-//                qtd_estoque = pdao.retornaQtdAtualEstoque(p.getId());
-//                qtd_comprada = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
-//                qtd_atualizada = qtd_estoque - qtd_comprada;
-//                pdao.baixaEstoque(p.getId(), qtd_atualizada);
+                qtd_estoque = pdao.retornaQtdAtualEstoque(p.getId());
+                qtd_comprada = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
+                qtd_atualizada = qtd_estoque - qtd_comprada;
+                pdao.baixaEstoque(p.getId(), qtd_atualizada);
                 ItensVendasDAO dao = new ItensVendasDAO();
                 dao.salvar(item);
-                this.dispose();                 
+                this.dispose();
+                new FormularioVendas().setVisible(true);
+                        
+                
             }
-            new FormularioVendas().setVisible(true);   
-        }else if (TotalPago < totalVenda) {
-    // Caso o valor pago seja menor que o valor da venda
-    JOptionPane.showMessageDialog(null, "Não foi possível concluir a venda, valor pago menor que o valor da venda.");
-
-    // Neste ponto, percorremos a tabela e adicionamos de volta ao estoque os produtos
-    for (int i = 0; i < meus_produtos.getRowCount(); i++) {
-        int idProduto = Integer.valueOf(meus_produtos.getValueAt(i, 0).toString());
-        int qtdProduto = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
-
-        // Adiciona novamente ao estoque
-        new ProdutosDAO().adicionarEstoquePDV(idProduto, qtdProduto);
-
-        
-    }
-    this.dispose();
-    new FormularioVendas().setVisible(true);
-           
-
-         }else {
+        } else {
             JOptionPane.showMessageDialog(null, "Não foi possivel concluir a venda, valor pago menor que o valor da venda.");
         }
 
