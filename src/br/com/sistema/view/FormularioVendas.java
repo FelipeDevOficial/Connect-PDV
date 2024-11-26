@@ -837,10 +837,10 @@ public class FormularioVendas extends javax.swing.JFrame {
                     subtotal
                 }); 
                int id = Integer.valueOf(txtCodigo.getText());
-                 daot.baixaEstoquePDV(id, quatidade);
+               daot.baixaEstoquePDV(id, quatidade);
             } else {
                 JOptionPane.showMessageDialog(null, "A quantidade desejada é maior do que a disponível." );
-            }
+            }         
         } else {
             JOptionPane.showMessageDialog(null, "Não foi possível adicionar ao carrinho, faltam informações.");
         }
