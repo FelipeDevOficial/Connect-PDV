@@ -373,6 +373,7 @@ public void adicionarEstoquePDV(int id, int qtdParaAdicionar) {
     return null;
 }
 
+    //Buscar produto por código de barras
     public Integer CB_for_ID(String codigoBarras) {
     Integer produtoId = null;
     String sql = "SELECT id FROM tb_produtos WHERE cod_barras = ?";
@@ -392,5 +393,53 @@ public void adicionarEstoquePDV(int id, int qtdParaAdicionar) {
     return produtoId;
 }
 
+    
+//  Buscar ptoduto por código de barras  
+    public Produtos BuscarProdutosPorCodigoBarras(String codBarras) {
+    try {
+        // Define a consulta SQL para buscar pelo código de barras
+        String sql = "SELECT p.id, p.descricao, p.cod_barras, p.preco, p.qtd_estoque, f.nome " +
+                     "FROM tb_produtos AS p " +
+                     "INNER JOIN tb_fornecedores AS f ON (p.for_id = f.id) " +
+                     "WHERE p.cod_barras = ?";
+
+        // Prepara a consulta
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, codBarras); // Substitui o código de barras no placeholder da consulta
+
+        // Executa a consulta
+        ResultSet rs = stmt.executeQuery();
+
+        // Inicializa os objetos para receber os dados
+        Produtos obj = new Produtos();
+        Fornecedores f = new Fornecedores();
+
+        // Processa o resultado
+        if (rs.next()) {
+            obj.setId(rs.getInt("p.id"));
+            obj.setDescricao(rs.getString("p.descricao"));
+            obj.setCod_barras(rs.getString("p.cod_barras"));
+            obj.setPreco(rs.getDouble("p.preco"));
+            obj.setQtd_estoque(rs.getInt("p.qtd_estoque"));
+
+            f.setNome(rs.getString("f.nome"));
+            obj.setFornecedores(f); // Associa o fornecedor ao produto
+        }
+
+        // Retorna o produto encontrado
+        return obj;
+
+    } catch (SQLException erro) {
+        // Mostra mensagem de erro em caso de falha no SQL
+        JOptionPane.showMessageDialog(null, "Erro ao buscar produto pelo código de barras: " + erro);
+    } catch (Exception exception) {
+        // Trata exceções gerais
+        JOptionPane.showMessageDialog(null, "Erro inesperado: " + exception);
+    }
+    return null; // Retorna nulo se ocorrer erro
+}
+
+    
+    
     
 } 

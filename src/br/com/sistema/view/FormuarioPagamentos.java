@@ -228,6 +228,7 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDinheiroActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+      
         double dinheiro, cartao, cheque, totalVenda, troco, TotalPago;
         dinheiro = Double.valueOf(txtDinheiro.getText());
         cartao = Double.valueOf(txtCartao.getText());
@@ -264,18 +265,21 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                 qtd_estoque = pdao.retornaQtdAtualEstoque(p.getId());
                 qtd_comprada = Integer.valueOf(meus_produtos.getValueAt(i, 2).toString());
                 qtd_atualizada = qtd_estoque - qtd_comprada;
-                pdao.baixaEstoque(p.getId(), qtd_atualizada);
+                //pdao.baixaEstoque(p.getId(), qtd_atualizada);
                 ItensVendasDAO dao = new ItensVendasDAO();
                 dao.salvar(item);
-                this.dispose();
-                new FormularioVendas().setVisible(true);
+                
                         
                 
             }
+            this.dispose();
+            new FormularioVendas().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Não foi possivel concluir a venda, valor pago menor que o valor da venda.");
         }
 
+ 
+  
     }//GEN-LAST:event_btnPagarActionPerformed
 
     /**
