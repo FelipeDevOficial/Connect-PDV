@@ -489,9 +489,9 @@ public class FormularioVendas extends javax.swing.JFrame {
                         .addComponent(btnPesquisarProduto)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PainelPDVProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrinho de compras"));
@@ -517,7 +517,9 @@ public class FormularioVendas extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -565,37 +567,37 @@ public class FormularioVendas extends javax.swing.JFrame {
         painelTotalVendaLayout.setHorizontalGroup(
             painelTotalVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelTotalVendaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel14)
-                .addGap(272, 272, 272))
+                .addContainerGap(224, Short.MAX_VALUE)
+                .addGroup(painelTotalVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelTotalVendaLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(272, 272, 272))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelTotalVendaLayout.createSequentialGroup()
+                        .addComponent(btnPagamento)
+                        .addGap(197, 197, 197)
+                        .addComponent(btnCancelar)
+                        .addGap(130, 130, 130))))
             .addGroup(painelTotalVendaLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(277, 277, 277)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelTotalVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelTotalVendaLayout.createSequentialGroup()
-                        .addComponent(txtTotalVenda)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(painelTotalVendaLayout.createSequentialGroup()
-                        .addComponent(btnPagamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)
-                        .addGap(143, 143, 143))))
+                .addComponent(txtTotalVenda)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         painelTotalVendaLayout.setVerticalGroup(
             painelTotalVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelTotalVendaLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(50, 50, 50)
                 .addGroup(painelTotalVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtTotalVenda))
-                .addGap(92, 92, 92)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(painelTotalVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPagamento)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPagamento))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addGap(51, 51, 51))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -811,41 +813,65 @@ public class FormularioVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoKeyReleased
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        // TODO add your handling code here:
-      String nome = txtProduto.getText();
+        // TODO add your handling code here:        
+        String nome = txtProduto.getText();  // Nome do produto
         Produtos obj = new Produtos();
         ProdutosDAO daot = new ProdutosDAO();
-        obj = daot.BuscarProdutos(nome);   
+        obj = daot.BuscarProdutos(nome);
+
         if (obj.getDescricao() != null) {
-            int estoque = Integer.valueOf(txtEstoque.getText());
-            int quatidade = Integer.valueOf(txtQtd.getText());
-            preco = Double.valueOf(txtPreco.getText());
-            percentualDesconto = Double.valueOf(txtDesconto.getText());
-            desconto = preco * percentualDesconto /100;
-            precoDesconto = preco - desconto;
-            qtd = Integer.valueOf(txtQtd.getText());
-            subtotal = precoDesconto * qtd;
-            total += subtotal;            
-            if (estoque >= quatidade) {
-                txtTotalVenda.setText(String.valueOf(total));
-                meus_produtos = (DefaultTableModel)tabelaCarrinho.getModel();
-                meus_produtos.addRow(new Object[] {
-                    txtCodigo.getText(),
-                    txtProduto.getText(),
-                    txtQtd.getText(),
-                    txtPreco.getText(),
-                    subtotal
-                }); 
-               int id = Integer.valueOf(txtCodigo.getText());
-               daot.baixaEstoquePDV(id, quatidade);
-            } else {
-                JOptionPane.showMessageDialog(null, "A quantidade desejada é maior do que a disponível." );
-            }         
+            try {
+                // Lendo os valores dos campos
+                int estoque = Integer.parseInt(txtEstoque.getText());  // Estoque
+                int quantidade = Integer.parseInt(txtQtd.getText());  // Quantidade
+                double preco = Double.parseDouble(txtPreco.getText());  // Preço
+                double percentualDesconto = Double.parseDouble(txtDesconto.getText());  // Percentual de desconto
+
+                
+                // Verificando se o estoque é suficiente para a quantidade
+                if (estoque >= quantidade) {
+                     // Calculando o preço com desconto para o produto
+                double precoComDesconto = preco * (1 - percentualDesconto / 100);
+
+                // Calculando o subtotal dessa linha (preço com desconto * quantidade)
+                double subtotal = precoComDesconto * quantidade;
+
+                // Atualizando o total (somando o subtotal dessa linha ao total)
+                total += subtotal;
+
+                // Exibindo o total
+                txtTotalVenda.setText(String.format("%.2f", total));
+                    
+                    
+                    // Adicionando a linha ao carrinho (tabela)
+                    meus_produtos = (DefaultTableModel) tabelaCarrinho.getModel();
+                    meus_produtos.addRow(new Object[]{
+                        txtCodigo.getText(),
+                        txtProduto.getText(),
+                        quantidade,
+                        preco,
+                        subtotal
+                    });
+
+                    // Realizando a baixa no estoque
+                    int id = Integer.parseInt(txtCodigo.getText());
+                    daot.baixaEstoquePDV(id, quantidade);
+                } else {
+                    // Caso a quantidade seja maior que o estoque disponível
+                    JOptionPane.showMessageDialog(null, "A quantidade desejada é maior do que a disponível.");
+                   new Utilitarios().LimpaTela(PainelPDVProduto);
+                    txtDesconto.setText("0");
+                    txtQtd.setText("1");
+                }
+            } catch (NumberFormatException e) {
+                // Tratando erro de formatação de números
+                JOptionPane.showMessageDialog(null, "Por favor, preencha os campos corretamente.");
+            }
         } else {
+            // Caso o produto não seja encontrado
             JOptionPane.showMessageDialog(null, "Não foi possível adicionar ao carrinho, faltam informações.");
-        }
-        
-        
+        }        
+       
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void txtCod_barrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCod_barrasActionPerformed
@@ -903,6 +929,8 @@ for (int i = 0; i < tabelaCarrinho.getRowCount(); i++) { // Itera sobre todas as
         Utilitarios ut =  new Utilitarios();
         ut.LimpaTela(PainelPDVProduto);
         ut.LimpaTela(painelTotalVenda);
+        total=00;
+        txtTotalVenda.setText(String.valueOf(String.format("%.2f", total)));
         txtDesconto.setText("0");
         txtQtd.setText("1");
 
