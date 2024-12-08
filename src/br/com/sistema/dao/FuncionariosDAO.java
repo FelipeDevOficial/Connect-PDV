@@ -253,6 +253,9 @@ public class FuncionariosDAO {
             }else{
                 //FormularioLogin login = new FormularioLogin();
                 JOptionPane.showMessageDialog(null, "Dados inválidos!");                
+                new FormularioLogin().setVisible(false);
+                new FormularioLogin().setVisible(true);
+                
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro" + e);

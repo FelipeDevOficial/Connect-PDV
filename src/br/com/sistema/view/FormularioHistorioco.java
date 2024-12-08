@@ -9,9 +9,11 @@ import br.com.sistema.dao.vendasDAO;
 import br.com.sistema.model.vendas;
 import br.com.sistema.dao.ItensVendasDAO;
 import br.com.sistema.model.ItensVendas;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -200,6 +202,7 @@ public class FormularioHistorioco extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFimActionPerformed
 
     private void btnPesquisaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaVendaActionPerformed
+        NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate data_inicio = LocalDate.parse(txtInicio.getText(), formato);
         LocalDate data_fim = LocalDate.parse(txtFim.getText(), formato);
@@ -213,7 +216,7 @@ public class FormularioHistorioco extends javax.swing.JFrame {
             v.getClientes().getNome(),
             v.getClientes().getCpf(),
             v.getData_venda(),
-            v.getTotal_venda(),
+            formatador.format(v.getTotal_venda()),
             v.getObservacoes()
         });            
         }    
@@ -233,13 +236,26 @@ public class FormularioHistorioco extends javax.swing.JFrame {
             System.out.println("Nenhuma linha selecionada.");
             return; // Sai se nenhuma linha estiver selecionada
         }
+        
+        // Criar um formatador para moeda brasileira
+        NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        /*String tab = tabela.getValueAt(selectedRow, 4).toString();
+        String precoFormatado = formatador.format(Double.parseDouble(tab));
 
+        // Obtém o valor da célula como uma string
+         String valorFormatado = tabela.getValueAt(selectedRow, 4).toString();*/
+
+         // Remove o "R$", troca vírgula por ponto e elimina espaços
+       /*  String valorSemFormatacao = valorFormatado.replace("R$", "").replace(",", ".").trim();
+         double valorNovoFormatado = Double.parseDouble(valorSemFormatacao);
+       */
         // Preenche os campos de texto no FormularioDetalheVenda com base nos dados da linha selecionada
         fdv.txtIdVenda.setText(tabela.getValueAt(selectedRow, 0).toString());
         fdv.txtCliente.setText(tabela.getValueAt(selectedRow, 1).toString());
         fdv.txtCpf.setText(tabela.getValueAt(selectedRow, 2).toString());
         fdv.txtDataVenda.setText(tabela.getValueAt(selectedRow, 3).toString());
         fdv.txtTotalVenda.setText(tabela.getValueAt(selectedRow, 4).toString());
+        fdv.txtTotalVenda.setText(String.valueOf(tabela.getValueAt(selectedRow, 4).toString()));
         fdv.txtObs.setText(tabela.getValueAt(selectedRow, 5).toString());
 
         // Obtém o id da venda e imprime para verificação
@@ -273,8 +289,8 @@ public class FormularioHistorioco extends javax.swing.JFrame {
                 item.getProdutos().getId(),       // Código do produto
                 item.getProdutos().getDescricao(), // Descrição do produto
                 item.getQtd(),                     // Quantidade
-                item.getProdutos().getPreco(),     // Preço unitário
-                item.getSubtotal()                 // Subtotal (Quantidade * Preço)
+                formatador.format(item.getProdutos().getPreco()),     // Preço unitário
+               formatador.format(item.getSubtotal())                 // Subtotal (Quantidade * Preço)
             });
             // Log para depuração
             System.out.println("Produto: " + item.getProdutos().getDescricao() + ", Quantidade: " + item.getQtd());

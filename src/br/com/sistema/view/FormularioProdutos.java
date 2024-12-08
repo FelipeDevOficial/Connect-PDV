@@ -13,7 +13,9 @@ import br.com.sistema.model.Fornecedores;
 import br.com.sistema.model.Produtos;
 import br.com.utilitarios.Utilitarios;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +25,11 @@ import javax.swing.table.DefaultTableModel;
  * @author dacru
  */
 public class FormularioProdutos extends javax.swing.JDialog {
-
+    
+     NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+     
+     
+    
     public void setTxtPesquisaDescricao(JTextField txtPesquisaDescricao) {
         this.txtPesquisaDescricao = txtPesquisaDescricao;
     }
@@ -44,7 +50,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
                    pd.getId(),
                    pd.getDescricao(),
                    pd.getCod_barras(),
-                   pd.getPreco(),
+                   formatador.format(pd.getPreco()).replace("R$", ""),
                    pd.getQtd_estoque(),
                    pd.getFornecedores().getNome()                   
                  
@@ -427,8 +433,8 @@ public class FormularioProdutos extends javax.swing.JDialog {
             
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtDescricao.setText(obj.getDescricao());  
-            txtCod_barras.setText(obj.getCod_barras());  
-            txtPreco.setText(String.valueOf(obj.getPreco()));
+            txtCod_barras.setText(obj.getCod_barras());
+            txtPreco.setText(String.valueOf(formatador.format(obj.getPreco()).replace("R$", "")));
             txtQtdEstoque.setText(String.valueOf(obj.getQtd_estoque()));
             cbFornecedor.setSelectedItem(obj.getFornecedores());
             
@@ -469,7 +475,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
                    p.getId(),
                    p.getDescricao(),
                    p.getCod_barras(),
-                   p.getPreco(),
+                   formatador.format(p.getPreco()).replace("R$", ""),
                    p.getQtd_estoque(),
                    p.getFornecedores().getNome()                   
                  
@@ -484,7 +490,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
         Produtos obj = new Produtos();
         obj.setDescricao(txtDescricao.getText());
         obj.setCod_barras(txtCod_barras.getText());
-        obj.setPreco(Double.valueOf(txtPreco.getText()));
+        obj.setPreco(Double.valueOf(txtPreco.getText().replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".")));
         obj.setQtd_estoque(Integer.valueOf(txtQtdEstoque.getText()));
         obj.setFornecedores( (Fornecedores)cbFornecedor.getSelectedItem() );
         
@@ -493,7 +499,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
         dao.Salvar(obj);
         
         
-        //Após salvar os dados no banco de dados, o método do btão salvar limpa os campos do painel.
+    //Após salvar os dados no banco de dados, o método do btão salvar limpa os campos do painel.
         Utilitarios util = new Utilitarios();
         util.LimpaTela(painel_dados_pessoais);
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -519,7 +525,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
                    p.getId(),
                    p.getDescricao(),
                    p.getCod_barras(),
-                   p.getPreco(),
+                   formatador.format(p.getPreco()).replace("R$", ""),
                    p.getQtd_estoque(),
                    p.getFornecedores().getNome()
                  
@@ -571,7 +577,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtDescricao.setText(obj.getDescricao());  
             txtCod_barras.setText(obj.getCod_barras());  
-            txtPreco.setText(String.valueOf(obj.getPreco()));
+            txtPreco.setText(String.valueOf(formatador.format(obj.getPreco()).replace("R$", "")));
             txtQtdEstoque.setText(String.valueOf(obj.getQtd_estoque()));
             cbFornecedor.setSelectedItem(obj.getFornecedores());
             
@@ -585,7 +591,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
     }//GEN-LAST:event_txtDescricaoKeyReleased
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-        // TODO add your handling code here:
+        // TODO add your handling code here:             
         painel_guias.setSelectedIndex(0);
         txtCodigo.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
         txtDescricao.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());       
@@ -607,7 +613,7 @@ public class FormularioProdutos extends javax.swing.JDialog {
         obj.setId(Integer.valueOf(txtCodigo.getText()));
         obj.setDescricao(txtDescricao.getText());
         obj.setCod_barras(txtCod_barras.getText());
-        obj.setPreco(Double.valueOf(txtPreco.getText()));
+        obj.setPreco(Double.valueOf(txtPreco.getText().replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".")));
         obj.setQtd_estoque(Integer.valueOf(txtQtdEstoque.getText()));
         
         Fornecedores f = new Fornecedores();

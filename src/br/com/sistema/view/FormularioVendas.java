@@ -7,14 +7,17 @@ package br.com.sistema.view;
 
 import br.com.sistema.dao.ClientesDAO;
 import br.com.sistema.dao.ProdutosDAO;
+import br.com.sistema.dao.vendasDAO;
 import br.com.sistema.model.Clientes;
 import br.com.sistema.model.Produtos;
 import br.com.sistema.view.FormuarioPagamentos;
 import br.com.utilitarios.Utilitarios;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -24,9 +27,12 @@ import javax.swing.table.DefaultTableModel;
  * @author dacru
  */
 public class FormularioVendas extends javax.swing.JFrame {
-        public void listar () {
-//    ClientesDAO dao = new ClientesDAO();
-            ProdutosDAO dao = new ProdutosDAO();
+            // Formato de moeda para o Brasil
+            NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+    
+    
+    public void listar () {
+            ProdutosDAO dao = new ProdutosDAO();            
     List<Produtos> lista = dao.listar();
            DefaultTableModel dados = (DefaultTableModel) tabelaProduto.getModel(); 
            dados.setNumRows(0);
@@ -34,7 +40,7 @@ public class FormularioVendas extends javax.swing.JFrame {
                dados.addRow(new Object[]{
                    c.getId(),
                    c.getDescricao(),
-                   c.getPreco(),
+                   formatador.format(c.getPreco()).replace("R$", ""),
                    c.getQtd_estoque(),
                    c.getFornecedores().getNome(),
                    c.getCod_barras()
@@ -421,7 +427,7 @@ public class FormularioVendas extends javax.swing.JFrame {
 
         btnPesquisarProduto.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnPesquisarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/imagens/buscar.png"))); // NOI18N
-        btnPesquisarProduto.setText("PESQUISAR");
+        btnPesquisarProduto.setText("PESQUISAR CPF");
         btnPesquisarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarProdutoActionPerformed(evt);
@@ -444,22 +450,20 @@ public class FormularioVendas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPesquisaProduto)
+                        .addGap(362, 362, 362))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtData)
-                        .addGap(38, 38, 38))
+                        .addGap(96, 96, 96))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtPesquisaProduto)
-                                .addGap(169, 169, 169))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPesquisarProduto)
-                        .addGap(52, 52, 52))))
+                        .addGap(58, 58, 58))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PainelPDVProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -472,21 +476,17 @@ public class FormularioVendas extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(txtData))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(btnPesquisarProduto)))
+                    .addComponent(btnPesquisarProduto))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtData)
+                    .addComponent(jLabel3))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -676,25 +676,28 @@ public class FormularioVendas extends javax.swing.JFrame {
 
     private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
         // TODO add your handling code here:
-        String nome = txtNome.getText();
-        String cpf = txtCpf.getText();
-        obj = new Clientes();
-        
-        ClientesDAO dao = new ClientesDAO();
-        obj = dao.BuscarClientes(nome);
-        obj = dao.BuscarCpf(cpf);
-        if (obj.getNome() != null && obj.getCpf() != null) {
-            FormuarioPagamentos telaPag = new FormuarioPagamentos();
-            telaPag.clientes = obj;
-            telaPag.meus_produtos = meus_produtos;
-            telaPag.txtTotalVenda.setText(String.valueOf(total));
-            telaPag.setVisible(true);
-            this.dispose();
-            
-        }else {
-            JOptionPane.showMessageDialog(null, "Certifique de que os campos NOME e CPF \n foram devidamente preenchidos \n ou se que estão corretos.");
+        if (tabelaCarrinho.getRowCount() > 0) {
+                String nome = txtNome.getText();
+                String cpf = txtCpf.getText();
+                obj = new Clientes();
+
+                ClientesDAO dao = new ClientesDAO();
+                obj = dao.BuscarClientes(nome);
+                obj = dao.BuscarCpf(cpf);
+                if (obj.getNome() != null && obj.getCpf() != null) {
+                    FormuarioPagamentos telaPag = new FormuarioPagamentos();
+                    telaPag.clientes = obj;
+                    telaPag.meus_produtos = meus_produtos;
+                    telaPag.txtTotalVenda.setText(String.valueOf(formatador.format(total).replace("R$", "")));
+                    telaPag.setVisible(true);
+                    this.dispose();
+
+                }else {
+                    JOptionPane.showMessageDialog(null, "Certifique de que os campos NOME e CPF \n foram devidamente preenchidos \n ou se que estão corretos.");
+                }
+        } else{
+            JOptionPane.showMessageDialog(null, "O carrinho esta vazio!");
         }
-        
     }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private void txtTotalVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalVendaActionPerformed
@@ -797,7 +800,7 @@ public class FormularioVendas extends javax.swing.JFrame {
                dados.addRow(new Object[]{
                    p.getId(),
                    p.getDescricao(),
-                   p.getPreco(),
+                   formatador.format(p.getPreco()).replace("R$", ""),
                    p.getQtd_estoque(),
                    p.getFornecedores().getNome(),
                    p.getCod_barras()
@@ -820,27 +823,33 @@ public class FormularioVendas extends javax.swing.JFrame {
         obj = daot.BuscarProdutos(nome);
 
         if (obj.getDescricao() != null) {
-            try {
+            try {             
                 // Lendo os valores dos campos
                 int estoque = Integer.parseInt(txtEstoque.getText());  // Estoque
                 int quantidade = Integer.parseInt(txtQtd.getText());  // Quantidade
-                double preco = Double.parseDouble(txtPreco.getText());  // Preço
+                double preco = Double.parseDouble(txtPreco.getText().replace("R$", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".").trim());  // Preço
                 double percentualDesconto = Double.parseDouble(txtDesconto.getText());  // Percentual de desconto
 
                 
                 // Verificando se o estoque é suficiente para a quantidade
-                if (estoque >= quantidade) {
+                if (estoque >= quantidade || estoque > 0) {
                      // Calculando o preço com desconto para o produto
                 double precoComDesconto = preco * (1 - percentualDesconto / 100);
 
                 // Calculando o subtotal dessa linha (preço com desconto * quantidade)
                 double subtotal = precoComDesconto * quantidade;
 
-                // Atualizando o total (somando o subtotal dessa linha ao total)
+                //Exibindo o valor do total e do subtotal sem precisar formatar 
+                //ou expor a variável Original usada nas regras de negócio e
+                //atualizando o valor do total
                 total += subtotal;
+                double precoToo = preco;
+                double subtotalToo = subtotal;
 
-                // Exibindo o total
-                txtTotalVenda.setText(String.format("%.2f", total));
+                // Exibindo o total sem usar a variável original
+                //por meio de uma nova variável que terá o seu mesmo valor
+                double TooTotal = total;
+                txtTotalVenda.setText(formatador.format(TooTotal).replace("R$", ""));
                     
                     
                     // Adicionando a linha ao carrinho (tabela)
@@ -849,23 +858,22 @@ public class FormularioVendas extends javax.swing.JFrame {
                         txtCodigo.getText(),
                         txtProduto.getText(),
                         quantidade,
-                        preco,
-                        subtotal
+                        formatador.format( precoToo).replace("R$", ""),
+                        formatador.format(subtotalToo).replace("R$", "")
                     });
-
-                    // Realizando a baixa no estoque
+                  // Realizando a baixa no estoque
                     int id = Integer.parseInt(txtCodigo.getText());
                     daot.baixaEstoquePDV(id, quantidade);
                 } else {
                     // Caso a quantidade seja maior que o estoque disponível
                     JOptionPane.showMessageDialog(null, "A quantidade desejada é maior do que a disponível.");
-                   new Utilitarios().LimpaTela(PainelPDVProduto);
+                }
+                new Utilitarios().LimpaTela(PainelPDVProduto);
                     txtDesconto.setText("0");
                     txtQtd.setText("1");
-                }
             } catch (NumberFormatException e) {
                 // Tratando erro de formatação de números
-                JOptionPane.showMessageDialog(null, "Por favor, preencha os campos corretamente.");
+                JOptionPane.showMessageDialog(null, "Por favor, preencha os campos corretamente." + e);
             }
         } else {
             // Caso o produto não seja encontrado
@@ -907,21 +915,22 @@ public class FormularioVendas extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-for (int i = 0; i < tabelaCarrinho.getRowCount(); i++) { // Itera sobre todas as linhas
-    try {
-        int id = Integer.parseInt(tabelaCarrinho.getValueAt(i, 0).toString()); // Coluna do ID
-        int qtdAdicionar = Integer.parseInt(tabelaCarrinho.getValueAt(i, 2).toString()); // Coluna da quantidade
+        if(tabelaCarrinho.getRowCount() > 0){
+        for (int i = 0; i < tabelaCarrinho.getRowCount(); i++) { // Itera sobre todas as linhas
+            try {
+                int id = Integer.parseInt(tabelaCarrinho.getValueAt(i, 0).toString()); // Coluna do ID
+                int qtdAdicionar = Integer.parseInt(tabelaCarrinho.getValueAt(i, 2).toString()); // Coluna da quantidade
 
-        // Chama o método de adicionar estoque para cada linha
-        new ProdutosDAO().adicionarEstoquePDV(id, qtdAdicionar);
-    } catch (Exception e) {
-        // Exibe erro se os valores não puderem ser convertidos
-        JOptionPane.showMessageDialog(null, "Erro na linha " + (i + 1) + ": " + e.getMessage());
-    } 
-}
+                // Chama o método de adicionar estoque para cada linha
+                new ProdutosDAO().adicionarEstoquePDV(id, qtdAdicionar);
+            } catch (Exception e) {
+                // Exibe erro se os valores não puderem ser convertidos
+                JOptionPane.showMessageDialog(null, "Erro na linha " + (i + 1) + ": " + e.getMessage());
+            } 
+        }
 
-// Mensagem de sucesso após processar todas as linhas
-        JOptionPane.showMessageDialog(null, "Todos os produtos foram adicionados ao estoque com sucesso!");
+        // Mensagem de sucesso após processar todas as linhas
+        JOptionPane.showMessageDialog(null, "Compra cancelada com sucesso!");
 
         txtTotalVenda.setText("");
         DefaultTableModel model = (DefaultTableModel) tabelaCarrinho.getModel();  // Obtém o modelo da tabela
@@ -933,6 +942,9 @@ for (int i = 0; i < tabelaCarrinho.getRowCount(); i++) { // Itera sobre todas as
         txtTotalVenda.setText(String.valueOf(String.format("%.2f", total)));
         txtDesconto.setText("0");
         txtQtd.setText("1");
+        }else {
+            JOptionPane.showMessageDialog(null, "O carrinho esta vazio!");
+        }
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 

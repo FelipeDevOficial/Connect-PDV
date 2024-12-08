@@ -6,16 +6,20 @@
 package br.com.sistema.view;
 
 import br.com.sistema.dao.vendasDAO;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  *
  * @author dacru
  */
 public class FormularioTotalDoDia extends javax.swing.JFrame {
-
-    /**
+   //Formato de moeda para o Brasil
+   NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+   
+   /**
      * Creates new form FormularioTotalDoDia
      */
     public FormularioTotalDoDia() {
@@ -162,7 +166,7 @@ public class FormularioTotalDoDia extends javax.swing.JFrame {
         double total_do_dia;
         vendasDAO daov = new vendasDAO();
         total_do_dia = daov.PodicaoDoDia(data);
-        txtTotal.setText(String.valueOf(total_do_dia));
+        txtTotal.setText(String.valueOf(formatador.format(total_do_dia).replace("R$", "")));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**

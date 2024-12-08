@@ -13,7 +13,9 @@ import br.com.sistema.model.Fornecedores;
 import br.com.sistema.model.Produtos;
 import br.com.utilitarios.Utilitarios;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -25,7 +27,8 @@ import javax.swing.table.DefaultTableModel;
 public class FormularioEstoque extends javax.swing.JDialog {
     int idProduto, qtd_atualizada;
     
-    
+     
+                NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
     /**
      * Creates new form FormularioClientes
      */
@@ -40,7 +43,7 @@ public class FormularioEstoque extends javax.swing.JDialog {
                    pd.getId(),
                    pd.getDescricao(),
                    pd.getCod_barras(),
-                   pd.getPreco(),
+                   formatador.format(pd.getPreco()).replace("R$", ""),
                    pd.getQtd_estoque(),
                    pd.getFornecedores().getNome()                   
                  
@@ -143,6 +146,12 @@ public class FormularioEstoque extends javax.swing.JDialog {
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarActionPerformed(evt);
+            }
+        });
+
+        txtCod_barras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCod_barrasKeyReleased(evt);
             }
         });
 
@@ -348,27 +357,26 @@ public class FormularioEstoque extends javax.swing.JDialog {
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
-        String nome = txtDescricao.getText();
+         // TODO add your handling code here:
+            String nome = txtDescricao.getText();
 
-        Produtos obj = new Produtos();
-        ProdutosDAO dao = new ProdutosDAO();
-        Fornecedores forn = new Fornecedores();
-        FornecedoresDAO daoFor = new FornecedoresDAO();
+            Produtos obj = new Produtos();
+            ProdutosDAO dao = new ProdutosDAO();
+            Fornecedores forn = new Fornecedores();
+            FornecedoresDAO daoFor = new FornecedoresDAO();
 
-        obj = dao.BuscarProdutos(nome);
-        if (obj.getDescricao() != null) {
+            obj = dao.BuscarProdutos(nome);
+            if (obj.getDescricao() != null) {
 
-            txtCodigo.setText(String.valueOf(obj.getId()));
-            txtDescricao.setText(obj.getDescricao());
-            txtCod_barras.setText(obj.getCod_barras());
-            txtQtdAtual.setText(String.valueOf(obj.getPreco()));
-            txtQtd_nova.setText(String.valueOf(obj.getQtd_estoque()));
+                txtCodigo.setText(String.valueOf(obj.getId()));
+                txtDescricao.setText(obj.getDescricao());
+                txtCod_barras.setText(obj.getCod_barras());
+                txtQtdAtual.setText(String.valueOf(obj.getQtd_estoque()));
 
-            forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
-        }else{
-            JOptionPane.showMessageDialog(null, "Produto não encontrado!");
-        }
+                forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
+            }else{
+                JOptionPane.showMessageDialog(null, "Produto não encontrado!");
+            }        
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void txtDescricaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescricaoKeyReleased
@@ -388,8 +396,7 @@ public class FormularioEstoque extends javax.swing.JDialog {
                 txtCodigo.setText(String.valueOf(obj.getId()));
                 txtDescricao.setText(obj.getDescricao());
                 txtCod_barras.setText(obj.getCod_barras());
-                txtQtdAtual.setText(String.valueOf(obj.getPreco()));
-                txtQtd_nova.setText(String.valueOf(obj.getQtd_estoque()));
+                txtQtdAtual.setText(String.valueOf(obj.getQtd_estoque()));
 
                 forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
             }else{
@@ -400,26 +407,6 @@ public class FormularioEstoque extends javax.swing.JDialog {
 
     private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
         // TODO add your handling code here:
-        String nome = txtDescricao.getText();
-
-        Produtos obj = new Produtos();
-        ProdutosDAO dao = new ProdutosDAO();
-        Fornecedores forn = new Fornecedores();
-        FornecedoresDAO daoFor = new FornecedoresDAO();
-
-        obj = dao.BuscarProdutos(nome);
-        if (obj.getDescricao() != null) {
-
-            txtCodigo.setText(String.valueOf(obj.getId()));
-            txtDescricao.setText(obj.getDescricao());
-            txtCod_barras.setText(obj.getCod_barras());
-            txtQtdAtual.setText(String.valueOf(obj.getPreco()));
-            txtQtd_nova.setText(String.valueOf(obj.getQtd_estoque()));
-
-            forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
-        }else{
-            JOptionPane.showMessageDialog(null, "Produto não encontrado!");
-        }
     }//GEN-LAST:event_txtDescricaoActionPerformed
 
     private void txtQtd_novaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtd_novaActionPerformed
@@ -441,6 +428,32 @@ public class FormularioEstoque extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Erro:    " +  e);
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void txtCod_barrasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCod_barrasKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            // TODO add your handling code here:
+            String nome = txtCod_barras.getText();
+
+            Produtos obj = new Produtos();
+            ProdutosDAO dao = new ProdutosDAO();
+            Fornecedores forn = new Fornecedores();
+            FornecedoresDAO daoFor = new FornecedoresDAO();
+
+            obj = dao.BuscarProdutosPorCodigoBarras(nome);
+            if (obj.getDescricao() != null) {
+
+                txtCodigo.setText(String.valueOf(obj.getId()));
+                txtDescricao.setText(obj.getDescricao());
+                txtCod_barras.setText(obj.getCod_barras());
+                txtQtdAtual.setText(String.valueOf(obj.getQtd_estoque()));
+
+                forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
+            }else{
+                JOptionPane.showMessageDialog(null, "Produto não encontrado!");
+            }
+        }
+    }//GEN-LAST:event_txtCod_barrasKeyReleased
 
     /**
      * @param args the command line arguments

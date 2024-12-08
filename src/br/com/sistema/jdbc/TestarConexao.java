@@ -21,6 +21,8 @@ public class TestarConexao {
         }catch(HeadlessException erro){
             JOptionPane.showMessageDialog(null, "Erro ao se conectar ao banco de dados" + erro);
             
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Erro:  " + e);
         }
         
     }
