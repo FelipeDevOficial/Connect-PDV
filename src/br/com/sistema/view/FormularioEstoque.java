@@ -277,7 +277,15 @@ public class FormularioEstoque extends javax.swing.JDialog {
             new String [] {
                 "Código", "Descrição", "Código de Barras", "Preço", "Qtd_Estoque", "Fornecedor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tabela.setAutoscrolls(false);
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -285,6 +293,14 @@ public class FormularioEstoque extends javax.swing.JDialog {
             }
         });
         jScrollPane2.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setResizable(false);
+            tabela.getColumnModel().getColumn(1).setResizable(false);
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
+            tabela.getColumnModel().getColumn(4).setResizable(false);
+            tabela.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -337,6 +353,7 @@ public class FormularioEstoque extends javax.swing.JDialog {
         // TODO add your handling code here:
         Utilitarios util = new Utilitarios();
         util.LimpaTela(painel_estoque);
+        txtQtd_nova.setText("0");
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -372,6 +389,7 @@ public class FormularioEstoque extends javax.swing.JDialog {
                 txtDescricao.setText(obj.getDescricao());
                 txtCod_barras.setText(obj.getCod_barras());
                 txtQtdAtual.setText(String.valueOf(obj.getQtd_estoque()));
+                txtQtd_nova.setText("0");
 
                 forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
             }else{
@@ -416,14 +434,15 @@ public class FormularioEstoque extends javax.swing.JDialog {
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         try {
             int qtdAtaul, qtd_nova;
-            qtdAtaul = Integer.valueOf(txtQtdAtual.getText());
-            qtd_nova = Integer.valueOf(txtQtd_nova.getText());
+            qtdAtaul = Integer.parseInt(txtQtdAtual.getText());
+            qtd_nova =  Integer.parseInt(txtQtd_nova.getText());
             qtd_atualizada = qtdAtaul + qtd_nova;
             ProdutosDAO daopf = new ProdutosDAO();
             daopf.adicionarEstoque(idProduto, qtd_atualizada);     
             
             Utilitarios util = new Utilitarios();
             util.LimpaTela(painel_estoque);
+            txtQtd_nova.setText("0");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro:    " +  e);
         }
@@ -447,6 +466,7 @@ public class FormularioEstoque extends javax.swing.JDialog {
                 txtDescricao.setText(obj.getDescricao());
                 txtCod_barras.setText(obj.getCod_barras());
                 txtQtdAtual.setText(String.valueOf(obj.getQtd_estoque()));
+                txtQtd_nova.setText("0");
 
                 forn = daoFor.BuscarFornecedores(obj.getFornecedores().getNome() );
             }else{

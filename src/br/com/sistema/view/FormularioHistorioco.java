@@ -22,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
  * @author dacru
  */
 public class FormularioHistorioco extends javax.swing.JFrame {
-
+        // Criar um formatador para moeda brasileira
+        NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
     /**
      * Creates new form FormularioHistorioco
      */
@@ -166,13 +167,29 @@ public class FormularioHistorioco extends javax.swing.JFrame {
             new String [] {
                 "Código", "Cliente", "CPF", "Data da venda", "Total da venda", "Observações"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setResizable(false);
+            tabela.getColumnModel().getColumn(1).setResizable(false);
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
+            tabela.getColumnModel().getColumn(4).setResizable(false);
+            tabela.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,7 +233,7 @@ public class FormularioHistorioco extends javax.swing.JFrame {
             v.getClientes().getNome(),
             v.getClientes().getCpf(),
             v.getData_venda(),
-            formatador.format(v.getTotal_venda()),
+            formatador.format(v.getTotal_venda()).replace("R$", "").trim(),
             v.getObservacoes()
         });            
         }    
@@ -236,19 +253,8 @@ public class FormularioHistorioco extends javax.swing.JFrame {
             System.out.println("Nenhuma linha selecionada.");
             return; // Sai se nenhuma linha estiver selecionada
         }
+
         
-        // Criar um formatador para moeda brasileira
-        NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        /*String tab = tabela.getValueAt(selectedRow, 4).toString();
-        String precoFormatado = formatador.format(Double.parseDouble(tab));
-
-        // Obtém o valor da célula como uma string
-         String valorFormatado = tabela.getValueAt(selectedRow, 4).toString();*/
-
-         // Remove o "R$", troca vírgula por ponto e elimina espaços
-       /*  String valorSemFormatacao = valorFormatado.replace("R$", "").replace(",", ".").trim();
-         double valorNovoFormatado = Double.parseDouble(valorSemFormatacao);
-       */
         // Preenche os campos de texto no FormularioDetalheVenda com base nos dados da linha selecionada
         fdv.txtIdVenda.setText(tabela.getValueAt(selectedRow, 0).toString());
         fdv.txtCliente.setText(tabela.getValueAt(selectedRow, 1).toString());

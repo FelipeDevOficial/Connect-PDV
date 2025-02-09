@@ -169,7 +169,15 @@ public class FormularioFuncionarios extends javax.swing.JDialog {
             new String [] {
                 "Código", "Nome", "RG", "CPF", "E-mail", "Senha", "Cargo", "Nivel", "Telefone", "Celular", "CEP", "Endereco", "Nº", "Complemento", "Bairro", "Cidade", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tabela.setAutoscrolls(false);
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -177,6 +185,25 @@ public class FormularioFuncionarios extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setResizable(false);
+            tabela.getColumnModel().getColumn(1).setResizable(false);
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
+            tabela.getColumnModel().getColumn(4).setResizable(false);
+            tabela.getColumnModel().getColumn(5).setResizable(false);
+            tabela.getColumnModel().getColumn(6).setResizable(false);
+            tabela.getColumnModel().getColumn(7).setResizable(false);
+            tabela.getColumnModel().getColumn(8).setResizable(false);
+            tabela.getColumnModel().getColumn(9).setResizable(false);
+            tabela.getColumnModel().getColumn(10).setResizable(false);
+            tabela.getColumnModel().getColumn(11).setResizable(false);
+            tabela.getColumnModel().getColumn(12).setResizable(false);
+            tabela.getColumnModel().getColumn(13).setResizable(false);
+            tabela.getColumnModel().getColumn(14).setResizable(false);
+            tabela.getColumnModel().getColumn(15).setResizable(false);
+            tabela.getColumnModel().getColumn(16).setResizable(false);
+        }
 
         btnPesquisaNome.setText("Pesquisar");
         btnPesquisaNome.addActionListener(new java.awt.event.ActionListener() {

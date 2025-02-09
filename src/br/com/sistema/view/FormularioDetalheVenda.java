@@ -66,7 +66,7 @@ public class FormularioDetalheVenda extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(240, 240, 240));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Detalhe da venda");
@@ -194,8 +194,7 @@ public class FormularioDetalheVenda extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtDataVenda)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnImprimir)))
@@ -231,7 +230,15 @@ public class FormularioDetalheVenda extends javax.swing.JFrame {
             new String [] {
                 "Código", "Descrição", "Quantidade", "Preço Original", "Preço + Desconto"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         carrinho.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 carrinhoMousePressed(evt);
@@ -246,6 +253,13 @@ public class FormularioDetalheVenda extends javax.swing.JFrame {
             }
         });
         cars.setViewportView(carrinho);
+        if (carrinho.getColumnModel().getColumnCount() > 0) {
+            carrinho.getColumnModel().getColumn(0).setResizable(false);
+            carrinho.getColumnModel().getColumn(1).setResizable(false);
+            carrinho.getColumnModel().getColumn(2).setResizable(false);
+            carrinho.getColumnModel().getColumn(3).setResizable(false);
+            carrinho.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

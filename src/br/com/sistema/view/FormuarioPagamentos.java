@@ -238,13 +238,13 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
       
         double dinheiro, cartao, cheque, totalVenda, troco, TotalPago;
-        dinheiro = Double.valueOf(txtDinheiro.getText().replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".").trim());
-        cartao = Double.valueOf(txtCartao.getText().replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".").trim());
-        cheque = Double.valueOf(txtCheque.getText().replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".").trim());
-        totalVenda = Double.valueOf(txtTotalVenda.getText().replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".").trim());
+        dinheiro = Double.valueOf(txtDinheiro.getText().replaceAll("[^0-9,]", "").replace(",", "."));
+        cartao = Double.valueOf(txtCartao.getText().replaceAll("[^0-9,]", "").replace(",", "."));
+        cheque = Double.valueOf(txtCheque.getText().replaceAll("[^0-9,]", "").replace(",", "."));
+        totalVenda = Double.valueOf(txtTotalVenda.getText().replaceAll("[^0-9,]", "").replace(",", "."));
         TotalPago = dinheiro + cartao + cheque;
         troco = TotalPago - totalVenda;
-        txtTroco.setText(String.valueOf(formatador.format(troco).replace("R$", "")));
+        txtTroco.setText(String.valueOf(formatador.format(troco).replaceAll("[^0-9,]", "").replace(",", ".")));
 
         if (TotalPago >= totalVenda && TotalPago != 0 && TotalPago > 0) {
             vendas v = new vendas();
@@ -270,7 +270,7 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                 item.setQtd(Integer.valueOf(meus_produtos.getValueAt(i, 2).toString()));
                 
                 String valorFormatado = meus_produtos.getValueAt(i, 4).toString();
-                String valorSemFormatacao = valorFormatado.replace("R$", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(".", "").replace(",", ".").trim();
+                String valorSemFormatacao = valorFormatado.replaceAll("[^0-9,]", "").replace(",", ".");
                 
                 item.setSubtotal(Double.valueOf(valorSemFormatacao));                
                 qtd_estoque = pdao.retornaQtdAtualEstoque(p.getId());
@@ -283,8 +283,8 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
                         
                 
             }
-            this.dispose();
             new FormularioVendas().setVisible(true);
+            this.dispose();            
         } else {
             JOptionPane.showMessageDialog(null, "Não foi possivel concluir a venda, valor pago menor que o valor da venda.");                            
             for (int i = 0; i < meus_produtos.getRowCount(); i++) {
@@ -293,9 +293,9 @@ public class FormuarioPagamentos extends javax.swing.JFrame {
 
                 ProdutosDAO pdao = new ProdutosDAO();
                 pdao.adicionarEstoquePDV(produtoId, quantidade);
-            }
-            this.dispose();
+            }            
             new FormularioVendas().setVisible(true);         
+            this.dispose();
         }
 
  

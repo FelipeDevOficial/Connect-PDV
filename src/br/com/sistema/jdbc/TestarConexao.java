@@ -6,8 +6,7 @@
 package br.com.sistema.jdbc;
 
 import br.com.sistema.view.FormularioLogin;
-import java.awt.HeadlessException;
-import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -15,7 +14,8 @@ import javax.swing.JOptionPane;
  */
 public class TestarConexao {
     public static void main(String[] args) {
-        try{
+      //  try{
+            /*
             new ConexaoBancoRelatorios().conecta();
             JOptionPane.showMessageDialog(null, "Conectado com sucesso ao banco de dados!");
         }catch(HeadlessException erro){
@@ -23,7 +23,17 @@ public class TestarConexao {
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null,"Erro:  " + e);
+        }*/
+        try {
+          UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+          FormularioLogin l = new FormularioLogin();
+          l.setVisible(true);
+            
+        } catch (Exception e) {
+            FormularioLogin l = new FormularioLogin();
+            l.setVisible(true);
         }
         
+    //}
     }
 }

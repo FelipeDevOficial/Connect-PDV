@@ -157,7 +157,15 @@ public class FormularioFornecedores extends javax.swing.JDialog {
             new String [] {
                 "código", "nome", "cnpj", "e-mail", "telefone", "celular", "cep", "endereço", "Nº", "complemento", "bairro", "cidade", "estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tabela_fornecedores.setAutoscrolls(false);
         tabela_fornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -165,6 +173,21 @@ public class FormularioFornecedores extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tabela_fornecedores);
+        if (tabela_fornecedores.getColumnModel().getColumnCount() > 0) {
+            tabela_fornecedores.getColumnModel().getColumn(0).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(1).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(2).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(3).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(4).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(5).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(6).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(7).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(8).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(9).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(10).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(11).setResizable(false);
+            tabela_fornecedores.getColumnModel().getColumn(12).setResizable(false);
+        }
 
         btnPesquisaNome.setText("Pesquisar");
         btnPesquisaNome.addActionListener(new java.awt.event.ActionListener() {
@@ -453,7 +476,7 @@ public class FormularioFornecedores extends javax.swing.JDialog {
                             .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(painel_dados_pessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(painel_dados_pessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14))))
                 .addContainerGap(85, Short.MAX_VALUE))
