@@ -77,12 +77,20 @@ public class FormularioLogin extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSenhaKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyReleased(evt);
+            }
         });
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
+            }
+        });
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmailKeyReleased(evt);
             }
         });
 
@@ -205,6 +213,40 @@ public class FormularioLogin extends javax.swing.JFrame {
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaKeyPressed
+
+    private void txtSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyReleased
+        // TODO add your handling code here:
+     if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        try {
+          String email, senha;
+          email = txtEmail.getText();
+          senha = txtSenha.getText();
+          FuncionariosDAO dao = new FuncionariosDAO();
+          dao.efetuarLogin(email, senha);   
+          this.dispose();
+
+        } catch (Exception e) {
+         JOptionPane.showMessageDialog(null,"Erro: " + e);
+        }
+     }
+    }//GEN-LAST:event_txtSenhaKeyReleased
+
+    private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
+        // TODO add your handling code here:
+     if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        try {
+          String email, senha;
+          email = txtEmail.getText();
+          senha = txtSenha.getText();
+          FuncionariosDAO dao = new FuncionariosDAO();
+          dao.efetuarLogin(email, senha);   
+          this.dispose();
+
+        } catch (Exception e) {
+         JOptionPane.showMessageDialog(null,"Erro: " + e);
+        }
+     }
+    }//GEN-LAST:event_txtEmailKeyReleased
 
     /**
      * @param args the command line arguments
